@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import WeatherCard from '../components/WeatherCard';
+import './History.css';
 
 const History = () => {
   const [history, setHistory] = useState([]);

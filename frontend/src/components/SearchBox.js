@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import MyLocationIcon from '@mui/icons-material/MyLocation';
+import './SearchBox.css'
 
 const SearchBox = () => {
   const [city, setCity] = useState('');
@@ -37,28 +38,44 @@ const SearchBox = () => {
       async (position) => {
         const { latitude, longitude } = position.coords;
         try {
-          const apiKey = process.env.REACT_APP_OPENWEATHER_API_KEY;
-          if (!apiKey) {
-            throw new Error('OpenWeather API key is not configured');
-          }
-
+          // Use our backend API to get weather by coordinates
           const response = await fetch(
-            `https://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=1&appid=${apiKey}`
+            `http://localhost:5000/api/weather/coordinates?lat=${latitude}&lon=${longitude}`
           );
           
           if (!response.ok) {
-            throw new Error('Failed to fetch location data');
+            throw new Error('Failed to fetch weather data for your location');
           }
 
           const data = await response.json();
-          if (data && data[0] && data[0].name) {
-            navigate(`/forecast/${encodeURIComponent(data[0].name)}`);
+          if (data && data.name) {
+            // Navigate to forecast page with the city name from the weather data
+            navigate(`/forecast/${encodeURIComponent(data.name)}`);
           } else {
             throw new Error('Could not determine your location');
           }
         } catch (error) {
-          console.error('Error fetching location:', error);
-          setError(error.message || 'Failed to get your location');
+          console.error('Error fetching location weather:', error);
+          
+          // Fallback: try to get city name using reverse geocoding
+          try {
+            const apiKey = process.env.REACT_APP_OPENWEATHER_API_KEY || 'your_api_key_here';
+            const geoResponse = await fetch(
+              `https://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=1&appid=${apiKey}`
+            );
+            
+            if (geoResponse.ok) {
+              const geoData = await geoResponse.json();
+              if (geoData && geoData[0] && geoData[0].name) {
+                navigate(`/forecast/${encodeURIComponent(geoData[0].name)}`);
+                return;
+              }
+            }
+          } catch (geoError) {
+            console.error('Geocoding fallback failed:', geoError);
+          }
+          
+          setError(error.message || 'Failed to get weather for your location');
         } finally {
           setLoading(false);
         }
@@ -66,15 +83,38 @@ const SearchBox = () => {
       (error) => {
         console.error('Geolocation error:', error);
         setLoading(false);
-        setError('Failed to get your location. Please allow location access.');
+        
+        let errorMessage = 'Failed to get your location. ';
+        switch (error.code) {
+          case error.PERMISSION_DENIED:
+            errorMessage += 'Please allow location access in your browser settings.';
+            break;
+          case error.POSITION_UNAVAILABLE:
+            errorMessage += 'Location information is unavailable.';
+            break;
+          case error.TIMEOUT:
+            errorMessage += 'Location request timed out.';
+            break;
+          default:
+            errorMessage += 'An unknown error occurred.';
+            break;
+        }
+        
+        setError(errorMessage);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 300000 // 5 minutes
       }
     );
   };
 
   return (
-    <Box
+    <Box  
       component="form"
       onSubmit={handleSearch}
+      className="search-form"
       sx={{
         display: 'flex',
         gap: 2,
@@ -85,7 +125,7 @@ const SearchBox = () => {
         position: 'relative',
       }}
     >
-      <TextField
+      <TextField className='TextField'
         value={city}
         onChange={(e) => setCity(e.target.value)}
         placeholder="Enter city name"
@@ -96,6 +136,7 @@ const SearchBox = () => {
       <Button
         type="submit"
         variant="contained"
+        className="search-button"
         startIcon={<SearchIcon />}
         disabled={loading || !city.trim()}
         sx={{ height: '56px' }}
@@ -105,6 +146,7 @@ const SearchBox = () => {
       <Button
         onClick={handleLocationClick}
         variant="outlined"
+        className="location-button"
         startIcon={loading ? <CircularProgress size={20} /> : <MyLocationIcon />}
         disabled={loading}
         sx={{ height: '56px' }}
@@ -126,3 +168,4 @@ const SearchBox = () => {
 };
 
 export default SearchBox;
+

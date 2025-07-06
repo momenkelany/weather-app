@@ -8,10 +8,11 @@ import {
   Container,
 } from '@mui/material';
 import CloudIcon from '@mui/icons-material/Cloud';
+import './Navbar.css'
 
 const Navbar = () => {
   return (
-    <AppBar position="static">
+    <AppBar className='Navbar' position="static">
       <Container maxWidth="lg">
         <Toolbar>
           <CloudIcon sx={{ mr: 2 }} />

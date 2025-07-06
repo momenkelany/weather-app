@@ -3,7 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import {
   Container,
   Typography,
-  Grid,
   CircularProgress,
   Box,
   Alert,
@@ -67,12 +66,29 @@ const Forecast = () => {
     fetchWeatherData();
   }, [city, navigate]);
 
+  const getFiveDayForecast = (forecastData) => {
+    if (!forecastData || !forecastData.list) return [];
+    
+    // Group forecast data by date
+    const dailyForecasts = {};
+    
+    forecastData.list.forEach(item => {
+      const date = new Date(item.dt * 1000).toDateString();
+      if (!dailyForecasts[date]) {
+        dailyForecasts[date] = item;
+      }
+    });
+    
+    // Get the first 5 unique days
+    return Object.values(dailyForecasts).slice(0, 5);
+  };
+
   if (loading) {
     return (
       <Container maxWidth="lg">
         <SearchBox />
-        <Box display="flex" justifyContent="center" alignItems="center" minHeight="40vh">
-          <CircularProgress size={60} />
+        <Box className="weather-loading">
+          <CircularProgress size={60} sx={{ color: 'white' }} />
         </Box>
       </Container>
     );
@@ -84,19 +100,15 @@ const Forecast = () => {
         <SearchBox />
         <Box sx={{ mt: 4 }}>
           <Alert 
+            className="weather-error"
             severity="error" 
             variant="filled" 
             sx={{ 
-              display: 'flex', 
-              alignItems: 'center',
-              '& .MuiAlert-message': {
-                flex: 1
-              },
-              whiteSpace: 'pre-wrap',
-              '& a': {
-                color: 'inherit',
-                textDecoration: 'underline'
-              }
+              background: 'linear-gradient(135deg, rgba(244, 67, 54, 0.2) 0%, rgba(244, 67, 54, 0.1) 100%)',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(244, 67, 54, 0.3)',
+              borderRadius: '15px',
+              color: '#ffcdd2'
             }}
           >
             {error.includes('https://') ? (
@@ -113,38 +125,56 @@ const Forecast = () => {
     );
   }
 
+  const fiveDayForecast = forecast ? getFiveDayForecast(forecast) : [];
+
   return (
     <Container maxWidth="lg">
       <SearchBox />
       
       {currentWeather && (
         <Box sx={{ my: 4 }}>
-          <Typography variant="h4" gutterBottom>
+          <Typography 
+            variant="h4" 
+            gutterBottom 
+            sx={{ 
+              color: 'white', 
+              fontWeight: 700, 
+              textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
+              textAlign: 'center',
+              mb: 3
+            }}
+          >
             Current Weather in {city}
           </Typography>
-          <WeatherCard weather={currentWeather} />
+          <WeatherCard weather={currentWeather} cityName={city} />
         </Box>
       )}
 
-      {forecast && (
+      {fiveDayForecast.length > 0 && (
         <Box sx={{ my: 4 }}>
-          <Typography variant="h4" gutterBottom>
+          <Typography 
+            variant="h4" 
+            gutterBottom
+            sx={{ 
+              color: 'white', 
+              fontWeight: 700, 
+              textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
+              textAlign: 'center',
+              mb: 3
+            }}
+          >
             5-Day Forecast
           </Typography>
-          <Grid container spacing={2} className="forecast-grid">
-            {forecast.list
-              .filter((item, index) => index % 8 === 0) // Get one forecast per day
-              .slice(0, 5) // Get only 5 days
-              .map((item, index) => (
-                <Grid item xs={12} sm={6} md={4} lg={2.4} key={index}>
-                  <WeatherCard weather={item} />
-                </Grid>
-              ))}
-          </Grid>
+          <Box className="forecast-grid">
+            {fiveDayForecast.map((item, index) => (
+              <WeatherCard key={index} weather={item} isCompact={true} />
+            ))}
+          </Box>
         </Box>
       )}
     </Container>
   );
 };
 
-export default Forecast; 
+export default Forecast;
+

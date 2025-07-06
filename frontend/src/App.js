@@ -6,6 +6,7 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Forecast from './pages/Forecast';
 import History from './pages/History';
+import StyleTest from './pages/StyleTest';
 import './styles/App.css';
 
 const theme = createTheme({
@@ -34,6 +35,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/forecast/:city" element={<Forecast />} />
               <Route path="/history" element={<History />} />
+              <Route path="/style-test" element={<StyleTest />} />
             </Routes>
           </main>
         </div>
