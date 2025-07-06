@@ -32,7 +32,7 @@
 }
 
 .Navbar .MuiTypography-h6:hover {
-  transform: scale(1.025) !important;
+  transform: scale(1.05) !important;
 }
 
 .Navbar .MuiButton-root {
