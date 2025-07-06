@@ -1,6 +1,5 @@
 # Weather Forecasting Web Application
 
-![Weather App Banner](https://via.placeholder.com/1200x400.png?text=Weather+App+Banner)
 
 ## 🌟 Overview
 
