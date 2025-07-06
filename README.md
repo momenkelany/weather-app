@@ -235,10 +235,10 @@ This project is licensed under the MIT License. See LICENSE file for details.
 
 For questions or support, please contact:
 
-Phone: +201152214242
-Email: momenkelany1@gmail.com
-LinkedIn: https://www.linkedin.com/in/momen-kelany
-GitHub: https://github.com/momenkelany
+- **Phone**: +201152214242
+- **Email**: momenkelany1@gmail.com
+- **LinkedIn**: https://www.linkedin.com/in/momen-kelany
+- **GitHub**: https://github.com/momenkelany
 
 ---
 
