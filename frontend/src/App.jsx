@@ -32,7 +32,7 @@ function App() {
           <Navbar />
           <main className="main-content">
             <Routes>
-              <Route path="/" element={<Home />} />
+              <Route path="/weather-app/" element={<Home />} />
               <Route path="/forecast/:city" element={<Forecast />} />
               <Route path="/history" element={<History />} />
               <Route path="/style-test" element={<StyleTest />} />

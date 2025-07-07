@@ -51,7 +51,7 @@ const History = () => {
   return (
     <Container maxWidth="lg">
       <Box sx={{ my: 4 }}>
-        <Typography variant="h4" gutterBottom>
+        <Typography className='text' variant="h4" gutterBottom>
           Search History
         </Typography>
         

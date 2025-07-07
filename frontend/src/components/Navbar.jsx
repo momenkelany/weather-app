@@ -19,7 +19,7 @@ const Navbar = () => {
           <Typography
             variant="h6"
             component={RouterLink}
-            to="/"
+            to="/weather-app/"
             sx={{
               flexGrow: 1,
               textDecoration: 'none',
@@ -31,7 +31,7 @@ const Navbar = () => {
           <Button
             color="inherit"
             component={RouterLink}
-            to="/"
+            to="/weather-app/"
           >
             Home
           </Button>
