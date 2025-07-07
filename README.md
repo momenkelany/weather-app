@@ -1,5 +1,6 @@
 # Weather Forecasting Web Application
 
+![Live Preview](Weather-App.png)
 
 ## 🌟 Overview
 
@@ -7,6 +8,8 @@ This Weather Forecasting Web Application is a comprehensive, full-stack solution
 
 The application emphasizes a clean, responsive design, ensuring optimal usability across various devices, from desktops to mobile phones. Its robust backend handles data fetching and persistence, while the interactive frontend presents information clearly and engagingly. This project serves as a practical demonstration of integrating real-time API data, managing state in a React application, and building a RESTful API with Node.js and Express.js, backed by a MongoDB database.
 
+**Website URL : https://momenkelany.github.io/weather-app/ **
+**Backend URL : https://backend-silent-wind-3827.fly.dev **
 ## ✨ Features
 
 - **Real-time Weather Updates**: Get instant, up-to-the-minute weather conditions for any specified city, including temperature, humidity, wind speed, and atmospheric pressure.
@@ -167,7 +170,7 @@ weather-app/
 
 ## 🌐 Deployment
 
-This application is configured for easy deployment, particularly the frontend to **GitHub Pages**.
+This application is configured for easy deployment, particularly the frontend to **GitHub Pages**, and backend to **https://fly.io/**
 
 ### Frontend Deployment to GitHub Pages
 
@@ -213,8 +216,13 @@ This application is configured for easy deployment, particularly the frontend to
 
 ### Backend Deployment
 
-The backend (Node.js/Express.js) can be deployed to various cloud platforms such as Heroku, Vercel, Render, or a custom VPS. Ensure your `MONGODB_URI` and `OPENWEATHER_API_KEY` environment variables are correctly configured on your chosen hosting platform.
-
+The backend (Node.js/Express.js) is deployed to **https://fly.io/** cloud platform. Ensure your `MONGODB_URI` and `OPENWEATHER_API_KEY` environment variables are correctly configured on your chosen hosting platform.
+1. **Install `fly.io`** using this command
+  ```b iwr https://fly.io/install.ps1 -useb | iex
+   ```
+   2. **deploy** using this command
+    ```fly deploy
+   ```
 ## 🤝 Contributing
 
 Contributions are welcome! If you have suggestions for improvements, bug fixes, or new features, please feel free to:

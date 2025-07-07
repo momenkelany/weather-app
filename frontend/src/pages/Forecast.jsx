@@ -32,10 +32,12 @@ const Forecast = () => {
         setForecast(null);
 
         // Fetch current weather from our backend
-        const currentResponse = await fetch(
-          `http://localhost:5000/api/weather/city/${encodeURIComponent(city.trim())}`
-        );
+        const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
+const currentResponse = await fetch(
+  `${backendUrl}/api/weather/city/${encodeURIComponent(city.trim())}`
+);
+       
         const currentData = await currentResponse.json();
         if (!currentResponse.ok) {
           throw new Error(currentData.message || 'City not found');
@@ -44,9 +46,8 @@ const Forecast = () => {
 
         // Fetch forecast from our backend
         const forecastResponse = await fetch(
-          `http://localhost:5000/api/weather/forecast/${encodeURIComponent(city.trim())}`
-        );
-
+  `${backendUrl}/api/weather/forecast/${encodeURIComponent(city.trim())}`
+);
         const forecastData = await forecastResponse.json();
         if (!forecastResponse.ok) {
           throw new Error(forecastData.message || 'Failed to fetch forecast data');

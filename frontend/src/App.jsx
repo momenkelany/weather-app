@@ -9,6 +9,8 @@ import History from './pages/History';
 import StyleTest from './pages/StyleTest';
 import './styles/App.css';
 
+const key = import.meta.env.VITE_OPENWEATHER_API_KEY;
+
 const theme = createTheme({
   palette: {
     mode: 'light',
@@ -42,6 +44,7 @@ function App() {
       </ThemeProvider>
     </BrowserRouter>
   );
+  
 }
 
 export default App;
