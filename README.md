@@ -3,7 +3,7 @@
 
 ## 🌟 Overview
 
-This Weather Forecasting Web Application is a comprehensive, full-stack solution designed to provide users with real-time weather updates, accurate 5-day forecasts, and a historical record of their past weather searches. Built with React (frontend) and Node.js/Express (backend), it offers a seamless and intuitive user experience, allowing individuals to effortlessly track weather conditions for any city worldwide or their current location.
+This Weather Forecasting Web Application is a comprehensive, full-stack solution designed to provide users with real-time weather updates, accurate 5-day forecasts, and a historical record of their past weather searches. Built with a modern technology stack, it offers a seamless and intuitive user experience, allowing individuals to effortlessly track weather conditions for any city worldwide or their current location.
 
 The application emphasizes a clean, responsive design, ensuring optimal usability across various devices, from desktops to mobile phones. Its robust backend handles data fetching and persistence, while the interactive frontend presents information clearly and engagingly. This project serves as a practical demonstration of integrating real-time API data, managing state in a React application, and building a RESTful API with Node.js and Express.js, backed by a MongoDB database.
 
@@ -28,18 +28,14 @@ This application leverages a robust and modern technology stack to deliver its f
 
 ### Frontend
 - **ReactJS**: A powerful JavaScript library for building user interfaces, providing a component-based architecture for efficient and scalable development.
-- **React Router DOM**: For declarative routing in the application.
-- **Vite**: A fast build tool that provides a lightning-fast development experience.
 - **Material-UI (MUI)**: A popular React UI framework that implements Google's Material Design, offering a comprehensive suite of pre-built, customizable UI components.
+- **React Router DOM**: For declarative routing within the React application, enabling seamless navigation between different views.
 - **CSS3**: Custom styling with advanced features like Flexbox, Grid, and responsive media queries to ensure a visually appealing and adaptive design.
 
 ### Backend
 - **Node.js**: A JavaScript runtime built on Chrome's V8 JavaScript engine, used for building scalable network applications.
 - **Express.js**: A fast, unopinionated, minimalist web framework for Node.js, used for building the RESTful API.
-- **MongoDB**: A NoSQL database for storing search history.
 - **Mongoose**: An elegant MongoDB object modeling tool designed to work in an asynchronous environment, providing a straightforward way to interact with MongoDB.
-- **Axios**: Promise-based HTTP client for making requests to external APIs (e.g., OpenWeatherMap).
-- **Dotenv**: To manage environment variables.
 
 ### Database
 - **MongoDB**: A NoSQL, document-oriented database used for storing search history data, offering flexibility and scalability.
@@ -75,18 +71,6 @@ Before you begin, ensure you have the following installed:
    Navigate into the `backend` directory and install the necessary Node.js packages:
    ```bash
    cd backend
-Create a `.env` file in the `backend` directory with your environment variables:
-   ```
-   PORT=5000
-   MONGODB_URI=mongodb://localhost:27017/weatherapp
-   OPENWEATHER_API_KEY=YOUR_OPENWEATHER_API_KEY
-   ```
-   - `PORT`: Port for the backend server (default: `5000`).
-   - `MONGODB_URI`: Your MongoDB connection string.
-   - `OPENWEATHER_API_KEY`: Get your API key from [OpenWeatherMap](https://openweathermap.org/api).
-
-   Install backend dependencies:
-   ```bash
    npm install
    ```
 
@@ -94,14 +78,6 @@ Create a `.env` file in the `backend` directory with your environment variables:
    Return to the root directory of the project, then navigate into the `frontend` directory and install its dependencies:
    ```bash
    cd ../frontend
-Create a `.env` file in the `frontend` directory with your environment variables:
-   ```
-   VITE_BACKEND_URL=http://localhost:5000
-   ```
-   - `VITE_BACKEND_URL`: The URL of your backend API.
-
-   Install frontend dependencies:
-   ```bash
    npm install
    ```
 
@@ -136,9 +112,9 @@ To start both the backend server and the frontend development server, follow the
    Open another new terminal window, navigate to the `frontend` directory, and start the React development server:
    ```bash
    cd ../frontend
-   npm run dev
+   npm start
    ```
-   The frontend application will open in your browser at `http://localhost:5173`.
+   The frontend application will open in your default web browser at `http://localhost:3000`.
 
 ## 📂 Project Structure
 
@@ -146,24 +122,48 @@ The project is organized into `frontend` and `backend` directories, each with it
 
 ```
 weather-app/
-├── backend/                 # Node.js/Express API
-│   ├── controllers/         # API logic for weather and search history
-│   ├── models/              # Mongoose schemas for MongoDB
-│   ├── routes/              # API routes
-│   ├── server.js            # Main backend entry point
-│   └── package.json
-├── frontend/                # React application
-│   ├── public/              # Static assets
-│   ├── src/                 # React source code
-│   │   ├── components/      # Reusable React components
-│   │   ├── pages/           # Application pages (Home, History, Forecast)
-│   │   └── App.js, index.js, etc.
-│   ├── vite.config.js       # Vite configuration
-│   ├── package.json
-│   └── index.html           # Main HTML template
-└── README.md                # This documentation file
+├── backend/                      # Node.js + Express.js RESTful API
+│   ├── controllers/              # Business logic for API endpoints
+│   │   ├── searchHistoryController.js  # Handles search history operations
+│   │   └── weatherController.js        # Fetches weather data and forecast
+│   ├── models/                   # Mongoose schemas for MongoDB
+│   │   └── SearchHistory.js            # Defines the SearchHistory data model
+│   ├── routes/                   # API route definitions
+│   │   ├── searchHistoryRoutes.js      # Routes for search history
+│   │   └── weatherRoutes.js            # Routes for weather data
+│   ├── .env                      # Environment variables for backend
+│   ├── package.json              # Backend dependencies and scripts
+│   ├── server.js                 # Main Express server application
+│   └── ...                       # Other backend related files
+│
+├── frontend/                     # ReactJS single-page application
+│   ├── public/                   # Static assets (HTML, favicon, images)
+│   │   ├── index.html                # Main HTML file
+│   │   ├── cloud_favicon.png         # Custom favicon for the app
+│   │   └── ...                       # Other static assets
+│   ├── src/                      # React source code
+│   │   ├── components/           # Reusable UI components
+│   │   │   ├── Navbar.js
+│   │   │   ├── SearchBox.js
+│   │   │   ├── WeatherCard.js
+│   │   │   └── ...
+│   │   ├── pages/                # Page-level components (views)
+│   │   │   ├── Home.js
+│   │   │   ├── Forecast.js
+│   │   │   ├── History.js
+│   │   │   └── StyleTest.js
+│   │   ├── styles/               # Global and component-specific CSS
+│   │   │   ├── App.css
+│   │   │   └── ...
+│   │   ├── App.js                # Main application component
+│   │   ├── index.js              # Entry point for React app
+│   │   └── ...                   # Other frontend related files
+│   ├── .env                      # Environment variables for frontend
+│   ├── package.json              # Frontend dependencies and scripts
+│   └── ...                       # Other frontend related files
+│
+└── README.md                     # This documentation file
 ```
-
 
 ## 🌐 Deployment
 
@@ -229,11 +229,6 @@ Contributions are welcome! If you have suggestions for improvements, bug fixes, 
 ## 📄 License
 
 This project is licensed under the MIT License. See LICENSE file for details.
-
-## Acknowledgments
-
-- [OpenWeatherMap](https://openweathermap.org/) for weather data.
-- [Material-UI](https://mui.com/) for UI components.
 
 ## 📞 Contact
 
