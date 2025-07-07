@@ -3,7 +3,7 @@ const SearchHistory = require('../models/SearchHistory');
 const getSearchHistory = async (req, res) => {
   try {
     const history = await SearchHistory.find()
-      .sort({ timestamp: -1 })
+      .sort({ createdAt: -1 }) // ✅ Sort by built-in timestamp
       .limit(10);
     res.json(history);
   } catch (error) {
@@ -25,4 +25,4 @@ const clearSearchHistory = async (req, res) => {
 module.exports = {
   getSearchHistory,
   clearSearchHistory
-}; 
+};

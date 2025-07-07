@@ -17,10 +17,15 @@ const History = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
   const fetchHistory = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:5000/api/history');
+      const response = await fetch(`${backendUrl}/api/history`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch history');
+      }
       const data = await response.json();
       setHistory(data);
     } catch (err) {
@@ -51,10 +56,10 @@ const History = () => {
   return (
     <Container maxWidth="lg">
       <Box sx={{ my: 4 }}>
-        <Typography className='text' variant="h4" gutterBottom>
+        <Typography className="text" variant="h4" gutterBottom>
           Search History
         </Typography>
-        
+
         {error && (
           <Typography color="error" gutterBottom>
             {error}
@@ -72,15 +77,11 @@ const History = () => {
               >
                 Clear View
               </Button>
-              <Button
-                variant="outlined"
-                color="primary"
-                onClick={fetchHistory}
-              >
+              <Button variant="outlined" color="primary" onClick={fetchHistory}>
                 Refresh History
               </Button>
             </Box>
-            
+
             <div className="history-list">
               {history.map((item) => (
                 <WeatherCard
@@ -102,4 +103,4 @@ const History = () => {
   );
 };
 
-export default History; 
+export default History;
